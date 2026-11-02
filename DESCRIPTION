@@ -1,0 +1,14 @@
+Package: estacionesmeteo
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person("Dolores", "Palavecino", "dolorespalavecino369@gmail.com", role = c("aut", "cre")),
+    person("Alejo", "Settimini", "alejo@settimini.net", roles= c("aut", "cre")),
+Description: Funciones para descargar y leer datos de estaciones meteorologicas
+    del INTA, calcular resumenes de temperatura por estacion y graficar el
+    promedio mensual de temperatura. Paquete desarrollado para la materia
+    Programacion II.
+License: MIT + file LICENSE
+Config/roxygen2/version: 8.1.1
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)

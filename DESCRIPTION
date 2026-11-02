@@ -1,9 +1,10 @@
 Package: estacionesmeteo
-Title: What the Package Does (One Line, Title Case)
+Title: Lectura, Resumen y Visualizacion de Datos de Estaciones Meteorologicas del INTA
 Version: 0.0.0.9000
-Authors@R: 
-    person("Dolores", "Palavecino", "dolorespalavecino369@gmail.com", role = c("aut", "cre")),
-    person("Alejo", "Settimini", "alejo@settimini.net", roles= c("aut", "cre")),
+Authors@R: c(
+    person("Dolores", "Palavecino", email = "dolorespalavecino369@gmail.com", role = c("aut", "cre")),
+    person("Alejo", "Settimini", email = "alejo@settimini.net", role = "aut")
+  )
 Description: Funciones para descargar y leer datos de estaciones meteorologicas
     del INTA, calcular resumenes de temperatura por estacion y graficar el
     promedio mensual de temperatura. Paquete desarrollado para la materia

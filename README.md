@@ -1,55 +1,89 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# estacionesmeteo
+# estacionesmeteo <img src="man/figures/logo.png" align="right" height="139" alt="Logo de estacionesmeteo" />
 
 <!-- badges: start -->
 
 <!-- badges: end -->
 
-Paquete de prueba desarrollado por Dolores Palavecino y Alejo Settimini
-para la materia Programacion 2. No esta pensado para usarse como un
-paquete real.
+¡Hola! Te damos la bienvenida a **estacionesmeteo**, un paquete de R
+para leer, resumir y graficar datos de estaciones meteorológicas del
+INTA.
 
-## Installation
+> Este es un paquete de prueba, desarrollado para la materia
+> Programación II de la Licenciatura en Ciencia de Datos. No está
+> pensado para usarse como un paquete real.
 
-You can install the development version of estacionesmeteo from
-[GitHub](https://github.com/) with:
+## ¿Para qué sirve?
+
+El INTA registra todos los días la temperatura, la lluvia y la humedad
+en estaciones meteorológicas de todo el país. Trabajar con esos datos
+implica descargar archivos, leerlos con los tipos de columna correctos y
+repetir los mismos cálculos para cada estación.
+
+estacionesmeteo junta esos pasos en tres funciones, para que cualquier
+persona que trabaje con datos del clima, aunque recién empiece con R,
+pueda ir de los datos crudos a una tabla y un gráfico en pocas líneas:
+
+| Función | Qué hace |
+|----|----|
+| `leer_estacion()` | Descarga los datos de una estación, solo si todavía no están descargados, y los lee |
+| `tabla_resumen_temperatura()` | Calcula la media y el desvío estándar de la temperatura de cada estación |
+| `grafico_temperatura_mensual()` | Grafica el promedio de temperatura de cada mes, con una línea por estación |
+
+Además, incluye el dataset `estaciones`, con mediciones diarias de cinco
+estaciones: NH0472, NH0910, NH0046, NH0098 y NH0437.
+
+## Instalación
+
+Podés instalar el paquete desde GitHub con:
 
 ``` r
 # install.packages("pak")
 pak::pak("Dolorespalavecino/estacionesmeteo")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
+## Ejemplo de uso
 
 ``` r
 library(estacionesmeteo)
-## basic example code
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+Leer los datos de una estación (necesita conexión a internet):
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+NH0437 <- leer_estacion("NH0437", "datos/NH0437.csv")
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+Resumir la temperatura de las cinco estaciones incluidas:
 
-You can also embed plots, for example:
+``` r
+tabla_resumen_temperatura(estaciones)
+#> # A tibble: 2 × 6
+#>   variable NH0046 NH0098 NH0437 NH0472 NH0910
+#>   <chr>     <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+#> 1 media     17.3   18.6   20.2   18.0   17.7 
+#> 2 desvio     5.90   5.98   5.77   5.94   6.12
+```
 
-<img src="man/figures/README-pressure-1.png" alt="" width="100%" />
+Graficar el promedio mensual:
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+``` r
+grafico_temperatura_mensual(
+  estaciones,
+  colores = c("red", "blue", "darkgreen", "orange", "purple"),
+  titulo = "Temperatura media mensual"
+)
+```
+
+<img src="man/figures/README-grafico-1.png" alt="" width="100%" />
+
+Para un análisis más completo, mirá la viñeta con
+`vignette("estacionesmeteo", package = "estacionesmeteo")`.
+
+## Autores
+
+- Dolores Palavecino
+  ([@Dolorespalavecino](https://github.com/Dolorespalavecino))
+- Alejo Settimini ([@Alej035](https://github.com/Alej035))

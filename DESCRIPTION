@@ -13,7 +13,7 @@ License: MIT + file LICENSE
 Config/roxygen2/version: 8.1.1
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-URL: https://github.com/Dolorespalavecino/estacionesmeteo
+URL: https://github.com/Dolorespalavecino/estacionesmeteo, https://dolorespalavecino.github.io/estacionesmeteo/
 BugReports: https://github.com/Dolorespalavecino/estacionesmeteo/issues
 Depends: 
     R (>= 3.5)

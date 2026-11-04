@@ -1,0 +1,18 @@
+#' Datos diarios de cinco estaciones meteorologicas del INTA
+#'
+#' Mediciones diarias de las estaciones NH0472, NH0910, NH0046, NH0098 y
+#' NH0437.
+#'
+#' @format Un data frame con 95681 filas y 7 columnas:
+#' \describe{
+#'   \item{id}{Codigo de la estacion.}
+#'   \item{fecha}{Fecha de la medicion.}
+#'   \item{temperatura_abrigo_150cm}{Temperatura media de abrigo a 150 cm, en grados Celsius.}
+#'   \item{temperatura_abrigo_150cm_maxima}{Temperatura maxima de abrigo a 150 cm, en grados Celsius.}
+#'   \item{temperatura_abrigo_150cm_minima}{Temperatura minima de abrigo a 150 cm, en grados Celsius.}
+#'   \item{precipitacion_pluviometrica}{Precipitacion del dia, en milimetros.}
+#'   \item{humedad_media_8_14_20}{Humedad relativa media de las mediciones de las 8, 14 y 20 horas, en porcentaje.}
+#' }
+#' @source Sistema SIGA del INTA, descargado de
+#'   \url{https://github.com/rse-r/intro-programacion/tree/main/datos}
+"estaciones"

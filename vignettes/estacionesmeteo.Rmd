@@ -1,0 +1,178 @@
+---
+title: "Cómo usar estacionesmeteo"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cómo usar estacionesmeteo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 4
+)
+```
+
+```{r setup}
+library(estacionesmeteo)
+```
+
+## ¿Qué hace este paquete?
+
+estacionesmeteo permite leer, resumir y graficar datos diarios de estaciones meteorológicas del INTA. Los datos vienen del sistema SIGA del INTA y están disponibles en el repositorio de la materia Programación II.
+
+Esta guía muestra un análisis de punta a punta con las tres funciones del paquete.
+
+## Los datos incluidos
+
+El paquete trae el dataset `estaciones`, con mediciones diarias de cinco estaciones.
+
+```{r}
+head(estaciones)
+unique(estaciones$id)
+```
+
+Cada fila es un día en una estación. La columna `id` identifica la estación y `temperatura_abrigo_150cm` es la temperatura media de abrigo a 150 cm, en grados Celsius. Con `?estaciones` se puede ver la descripción de todas las columnas.
+
+## Leer los datos de otra estación
+
+`leer_estacion()` descarga los datos de cualquier estación del repositorio y los lee. Si el archivo ya está descargado, lo lee sin volver a descargarlo.
+
+```{r, eval = FALSE}
+NH0437 <- leer_estacion("NH0437", "datos/NH0437.csv")
+```
+
+Este bloque no se ejecuta en la guía porque necesita conexión a internet.
+
+Si el código de la estación no es texto, la función da un error claro:
+
+```{r, error = TRUE}
+leer_estacion(437, "datos/NH0437.csv")
+```
+
+## Resumir la temperatura
+
+`tabla_resumen_temperatura()` calcula la media y el desvío estándar de la temperatura de abrigo de cada estación.
+
+```{r}
+tabla_resumen_temperatura(estaciones)
+```
+
+NH0437 es la estación más cálida, con una media de alrededor de 20 °C. Las demás tienen medias de entre 17 y 19 °C. El desvío es parecido en todas, de alrededor de 6 °C.
+
+## Graficar la temperatura mensual
+
+`grafico_temperatura_mensual()` grafica el promedio de temperatura de cada mes, con una línea por estación.
+
+```{r}
+grafico_temperatura_mensual(
+  estaciones,
+  colores = c("red", "blue", "darkgreen", "orange", "purple"),
+  titulo = "Temperatura media mensual"
+)
+```
+
+Las cinco estaciones siguen el mismo ciclo anual: los meses más cálidos son de diciembre a febrero y los más fríos, junio y julio. NH0437 es la más cálida en todos los meses.
+
+Si no se indican colores, la función los elige al azar:
+
+```{r}
+grafico_temperatura_mensual(estaciones)
+```
+
+También se puede graficar una sola estación:
+
+```{r}
+NH0437 <- estaciones[estaciones$id == "NH0437", ]
+grafico_temperatura_mensual(NH0437, colores = "steelblue", titulo = "Temperatura en NH0437")
+```
+## Un análisis más completo
+
+Además de las funciones del paquete, los datos de `estaciones` se pueden analizar con dplyr y ggplot2. Esta sección muestra algunos ejemplos.
+
+### ¿Qué período cubre cada estación?
+
+```{r}
+estaciones |>
+  dplyr::group_by(id) |>
+  dplyr::summarise(desde = min(fecha), hasta = max(fecha), dias = dplyr::n())
+```
+
+Las estaciones no cubren el mismo período: NH0098 empieza en 1956 y NH0910 en 1975. NH0472 y NH0910 terminan en 2017, y las demás en 2023. Conviene tenerlo en cuenta al compararlas.
+
+### ¿Cuántos datos faltan?
+
+```{r}
+estaciones |>
+  dplyr::group_by(id) |>
+  dplyr::summarise(porcentaje_na = round(mean(is.na(temperatura_abrigo_150cm)) * 100, 2))
+```
+
+En todas las estaciones falta menos del 2 % de los datos de temperatura, así que los promedios son confiables.
+
+### Valores sospechosos
+
+```{r}
+estaciones |>
+  dplyr::group_by(id) |>
+  dplyr::summarise(minima = min(temperatura_abrigo_150cm, na.rm = TRUE),
+                   maxima = max(temperatura_abrigo_150cm, na.rm = TRUE))
+```
+
+La mínima de NH0098, de -17.4 °C, es mucho más baja que la del resto, que no baja de -0.25 °C. Podría ser un error de medición y conviene revisarla antes de usar esos datos.
+
+### ¿Cambió la temperatura con los años?
+
+```{r, message = FALSE, warning = FALSE}
+estaciones |>
+  dplyr::filter(id == "NH0437") |>
+  ggplot2::ggplot(ggplot2::aes(x = fecha, y = temperatura_abrigo_150cm)) +
+  ggplot2::geom_line(alpha = 0.3) +
+  ggplot2::geom_smooth(method = "lm") +
+  ggplot2::labs(title = "Temperatura en NH0437", x = "Fecha", y = "Temperatura (°C)")
+```
+
+En NH0437 la recta de regresión sube unos 0.2 °C por década: la temperatura media aumentó alrededor de 1 °C entre 1970 y 2023. Es un cambio chico frente a la diferencia entre verano e invierno, pero la temperatura no se mantuvo constante.
+
+### Temperatura y humedad
+
+```{r, message = FALSE, warning = FALSE}
+estaciones |>
+  dplyr::filter(!is.na(humedad_media_8_14_20)) |>
+  ggplot2::ggplot(ggplot2::aes(x = temperatura_abrigo_150cm, y = humedad_media_8_14_20, color = id)) +
+  ggplot2::geom_point(alpha = 0.05) +
+  ggplot2::geom_smooth(method = "lm") +
+  ggplot2::labs(x = "Temperatura (°C)", y = "Humedad media (%)")
+```
+
+La relación es débil y negativa: en los días más cálidos, la humedad tiende a ser un poco menor, pero los puntos están muy dispersos. NH0910 no aparece porque no tiene datos de humedad.
+
+### Precipitación a lo largo del año
+
+```{r, message = FALSE}
+estaciones |>
+  dplyr::mutate(anio = lubridate::year(fecha), mes = lubridate::month(fecha)) |>
+  dplyr::group_by(id, anio, mes) |>
+  dplyr::summarise(lluvia = sum(precipitacion_pluviometrica, na.rm = TRUE), .groups = "drop") |>
+  dplyr::group_by(id, mes) |>
+  dplyr::summarise(lluvia_media = mean(lluvia), .groups = "drop") |>
+  ggplot2::ggplot(ggplot2::aes(x = mes, y = lluvia_media, color = id)) +
+  ggplot2::geom_line() +
+  ggplot2::scale_x_continuous(breaks = 1:12) +
+  ggplot2::labs(x = "Mes", y = "Precipitación media mensual (mm)")
+```
+
+En todas las estaciones llueve más entre octubre y abril, y el invierno es seco: en julio caen entre 20 y 30 mm. NH0437 es la más lluviosa, con unos 1230 mm por año, mientras que las demás reciben entre 890 y 980 mm.
+
+## Resumen: analizar una estación nueva
+
+Con las tres funciones, el análisis completo de cualquier estación del repositorio lleva tres líneas:
+
+```{r, eval = FALSE}
+nueva <- leer_estacion("NH0472", "datos/NH0472.csv")
+tabla_resumen_temperatura(nueva)
+grafico_temperatura_mensual(nueva, titulo = "Temperatura en NH0472")
+```

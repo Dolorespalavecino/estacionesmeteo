@@ -22,3 +22,13 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Imports: 
+    cli,
+    dplyr,
+    ggplot2,
+    grDevices,
+    lubridate,
+    readr,
+    stats,
+    tidyr,
+    utils

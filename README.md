@@ -5,6 +5,9 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/Dolorespalavecino/estacionesmeteo/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Dolorespalavecino/estacionesmeteo/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/Dolorespalavecino/estacionesmeteo/graph/badge.svg)](https://app.codecov.io/gh/Dolorespalavecino/estacionesmeteo)
 <!-- badges: end -->
 
 ¡Hola! Te damos la bienvenida a **estacionesmeteo**, un paquete de R

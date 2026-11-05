@@ -15,4 +15,8 @@
 #' }
 #' @source Sistema SIGA del INTA, descargado de
 #'   \url{https://github.com/rse-r/intro-programacion/tree/main/datos}
+#' @examples
+#' head(estaciones)
+#' unique(estaciones$id)
+#'
 "estaciones"

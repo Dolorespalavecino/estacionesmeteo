@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/Dolorespalavecino/estacionesmeteo/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Dolorespalavecino/estacionesmeteo/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/Dolorespalavecino/estacionesmeteo/graph/badge.svg)](https://app.codecov.io/gh/Dolorespalavecino/estacionesmeteo)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 ¡Hola! Te damos la bienvenida a **estacionesmeteo**, un paquete de R para leer, resumir y graficar datos de estaciones meteorológicas del INTA.
@@ -82,3 +83,10 @@ Para un análisis más completo, mirá la viñeta con `vignette("estacionesmeteo
 - Dolores Palavecino ([@Dolorespalavecino](https://github.com/Dolorespalavecino))
 - Alejo Settimini ([@Alej035](https://github.com/Alej035))
 
+## Cómo contribuir
+
+Si querés colaborar con este paquete, leé la [guía de contribución](.github/CONTRIBUTING.md). Quienes participen tienen que respetar el [código de conducta](CODE_OF_CONDUCT.md).
+
+## Licencia
+
+El paquete se distribuye bajo licencia MIT. Consultá el archivo [LICENSE.md](LICENSE.md).

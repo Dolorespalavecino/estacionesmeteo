@@ -32,7 +32,7 @@ Un data frame (tibble) con los datos de la estacion.
 # \donttest{
 ruta <- file.path(tempdir(), "NH0437.csv")
 leer_estacion("NH0437", ruta)
-#> Descargando los datos de la estacion NH0437 en /tmp/Rtmp5NkIbp/NH0437.csv.
+#> Descargando los datos de la estacion NH0437 en /tmp/RtmpoMl3rY/NH0437.csv.
 #> # A tibble: 18,929 × 35
 #>    id     fecha      temperatura_abrigo_150cm temperatura_abrigo_150cm_maxima
 #>    <chr>  <date>                        <dbl>                           <dbl>

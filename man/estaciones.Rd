@@ -27,4 +27,9 @@ estaciones
 Mediciones diarias de las estaciones NH0472, NH0910, NH0046, NH0098 y
 NH0437.
 }
+\examples{
+head(estaciones)
+unique(estaciones$id)
+
+}
 \keyword{datasets}
